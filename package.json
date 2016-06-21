@@ -1,0 +1,19 @@
+{
+  "name": "cp-i18n-lib",
+  "version": "1.0.0",
+  "description": "A set of i18n helper functions for CoderDojo's community platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "i18n",
+    "coderdojo"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "jed": "^1.1.0",
+    "po2json": "^0.4.2"
+  }
+}
