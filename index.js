@@ -4,38 +4,38 @@ var fs = require('fs');
 var path = require('path');
 var po2json = require('po2json');
 var Jed = require('jed');
-var translators = {};
-var poData = {};
 
 function I18NHelper(options) {
   this.poFilePath = options.poFilePath;
   this.poFileName = options.poFileName || 'messages.po';
   this.domain = options.domain;
   this.defaultLocale = options.defaultLocale || 'en_US';
+  this.translators = {};
+  this.poData = {};
 }
 
 I18NHelper.prototype = {
   loadLocaleData: function (locale) {
-    if (!translators[locale] && !poData[locale]) {
+    if (!this.translators[locale] && !this.poData[locale]) {
       if (!fs.existsSync(path.join(this.poFilePath, locale, this.poFileName))) {
         locale = this.defaultLocale;
       }
-      poData[locale] = po2json.parseFileSync(path.join(this.poFilePath, locale, this.poFileName), {
+      this.poData[locale] = po2json.parseFileSync(path.join(this.poFilePath, locale, this.poFileName), {
         format: 'jed1.x',
         domain: this.domain
       });
-      translators[locale] = new Jed(poData[locale]);
+      this.translators[locale] = new Jed(this.poData[locale]);
     }
   },
 
   getTranslator: function (locale) {
     this.loadLocaleData(locale);
-    return translators[locale];
+    return this.translators[locale];
   },
 
   getPoData: function (locale) {
     this.loadLocaleData(locale);
-    return poData[locale];
+    return this.poData[locale];
   },
 
   getClosestTranslation: function (locale, key) {
